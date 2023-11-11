@@ -45,7 +45,6 @@ app.post('/',upload.single('file'), (req, res) => {
     for (row of csvData) {
         let currentArgument = getCurrentArgument();
         let currentClaim = getCurrentClaim();
-        let currentEvidence = getCurrentEvidence();
         if (row['CAE'] === 'C') {
             const currentClaimTitle = row['Title'].trim().slice(0, 300);
             const currentClaimDescription = row['Description'].trim();
