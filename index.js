@@ -85,9 +85,11 @@ app.post('/',upload.single('file'), (req, res) => {
     }
     const allClaim = getAllClaims();
     CLEAN();
+    fs.unlink(uploadCSV.path, () => {
+        console.log("Deleted")
+    })
     res.json(allClaim);
     })
-
 })
 
 app.listen(port, () => {
