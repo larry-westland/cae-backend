@@ -2,58 +2,17 @@ let allRiskRelationships = [];
 let allArguments = [];
 let allEvidences = [];
 let allClaims = [];
-let allAssets = [];
-let allLCPs = [];
-let allSahs = [];
-
-// **********LCP**********
-function getAllLCP() {
-    return allAsset;
-}
-
-function checkAndCreateLCP(lcp) {
-    if (!allLCPs.includes(lcp)) {
-        allLCPs.push(lcp);
-    }
-    return allLCPs;
-}
-
-
-// **********Asset**********
-function getAllAsset() {
-    return allAssets;
-}
-
-function checkAndCreateAllAsset(asset) {
-    if (!allAssets.includes(asset)) {
-        allAssets.push(asset);
-    }
-    return allAssets;
-}
-
-// **********SAH**********
-function getAllSAH() {
-    return allSahs;
-}
-
-function checkAndCreateAllSAH(sah) {
-    if (!allSahs.includes(sah)) {
-        allSahs.push(sah);
-    }
-    return allSahs;
-}
+let currentClaim = {};
+let currentArgument = {};
+let currentEvidence = {};
 
 // **********RR**********
-function getAllRiskRelationship() {
-    return allRiskRelationships;
-}
-
 function checkIfRRExistAndCreate(lcpTitle, assetTitle, sahTitle) {
-    if (allRiskRelationships
-        .filter(
-            each => each.sahTitle === sahTitle &&
-                each.assetTitle === assetTitle &&
-                each.lcpTitle === lcpTitle).length === 0) {
+    let relationship = allRiskRelationships.filter(
+        each => each.sahTitle === sahTitle &&
+            each.assetTitle === assetTitle &&
+            each.lcpTitle === lcpTitle)
+    if (relationship.length === 0){
         const rrToCreate = {
             id: allRiskRelationships.length + 1,
             sahTitle: sahTitle,
@@ -63,6 +22,7 @@ function checkIfRRExistAndCreate(lcpTitle, assetTitle, sahTitle) {
         allRiskRelationships.push(rrToCreate)
         return rrToCreate;
     }
+    return  relationship[0];
 }
 
 // **********Claim**********
@@ -83,16 +43,22 @@ function createClaim(title, description, riskRelationship) {
 }
 
 function updateClaim(id, claim){
-    let index = allClaims.findIndex(each => each?.id === id);
+    let index = allClaims.find(each => each?.id === id);
     allClaims[index] = claim;
+    currentClaim = claim;
     return allClaims[index];
 }
 
-// **********Argument**********
-function getAllArguments(){
-    return allArguments;
+function getCurrentClaim(){
+    return currentClaim;
 }
 
+function saveCurrentClaim(claim){
+    currentClaim = claim;
+    return currentClaim;
+}
+
+// **********Argument**********
 function getArgumentByTitle(title){
     return allArguments.find(each => each?.title === title);
 }
@@ -110,7 +76,7 @@ function createArgument(title, description, riskRelationship) {
 }
 
 function updateArgument(id, argument){
-    let index = allArguments.findIndex(each => each?.id === id);
+    let index = allArguments.find(each => each?.id === id);
     allArguments[index] = argument;
     return allArguments[index];
 }
@@ -118,11 +84,17 @@ function updateArgument(id, argument){
 function checkIfArgumentExist(title){
     return allArguments.filter(each => each?.title === title).length > 0;
 }
-// **********Evidence**********
-function getAllEvidence(){
-    return allEvidences;
+
+function getCurrentArgument(){
+    return currentArgument;
 }
 
+function saveCurrentArgument(argument){
+    currentArgument = argument;
+    return currentArgument;
+}
+
+// **********Evidence**********
 function getEvidenceByTitle(title){
     return allEvidences.find(each => each?.title === title);
 }
@@ -141,6 +113,16 @@ function createEvidence(title, description){
     return evidenceToCreate;
 }
 
+function getCurrentEvidence(){
+    return currentEvidence;
+}
+
+function saveCurrentEvidence(evidence){
+    currentEvidence = evidence;
+    return currentEvidence;
+}
+
+
 function CLEAN(){
     allArguments = [];
     allAssets = [];
@@ -149,6 +131,9 @@ function CLEAN(){
     allLCPs = [];
     allRiskRelationships = [];
     allSahs = [];
+    currentClaim = {};
+    currentArgument = {};
+    currentEvidence = {};
 }
 
 module.exports = {
@@ -164,5 +149,10 @@ module.exports = {
     updateClaim,
     updateArgument,
     CLEAN,
-    getAllRiskRelationship,
+    getCurrentClaim,
+    saveCurrentClaim,
+    getCurrentArgument,
+    saveCurrentArgument,
+    getCurrentEvidence,
+    saveCurrentEvidence
 }
