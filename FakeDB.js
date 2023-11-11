@@ -124,13 +124,10 @@ function saveCurrentEvidence(evidence){
 
 
 function CLEAN(){
-    allArguments = [];
-    allAssets = [];
-    allClaims = [];
-    allEvidences = [];
-    allLCPs = [];
     allRiskRelationships = [];
-    allSahs = [];
+    allArguments = [];
+    allEvidences = [];
+    allClaims = [];
     currentClaim = {};
     currentArgument = {};
     currentEvidence = {};
